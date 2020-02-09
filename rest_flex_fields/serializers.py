@@ -22,10 +22,10 @@ class FlexFieldsSerializerMixin(object):
         passed = {}
         for field in ["expand", "fields", "omit"]:
             if field in kwargs:
-                if isinstance(kwargs[field], (list, tuple)):
-                    passed[field] = kwargs.pop(field)
-                else:
+                if isinstance(kwargs[field], str):
                     passed[field] = [kwargs.pop(field)]
+                else:
+                    passed[field] = list(kwargs.pop(field, []))
             else:
                 passed[field] = []
 
