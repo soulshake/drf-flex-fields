@@ -20,9 +20,9 @@ class FlexFieldsSerializerMixin(object):
         self.expanded_fields = []
 
         passed = {
-            "expand": list(kwargs.pop("expand", [])),
-            "fields": list(kwargs.pop("fields", [])),
-            "omit": list(kwargs.pop("omit", [])),
+            "expand": [kwargs.pop("expand")] if "expand" in kwargs else [],
+            "fields": [kwargs.pop("fields")] if "fields" in kwargs else [],
+            "omit": [kwargs.pop("omit")] if "omit" in kwargs else [],
         }
 
         super(FlexFieldsSerializerMixin, self).__init__(*args, **kwargs)
@@ -202,7 +202,7 @@ class FlexFieldsSerializerMixin(object):
 
         values = self.context["request"].query_params.getlist(field)
         if not values:
-            values = self.context["request"].query_params.getlist('{}[]'.format(field))
+            values = self.context["request"].query_params.getlist("{}[]".format(field))
 
         if values and len(values) == 1:
             return values[0].split(",")
