@@ -182,7 +182,7 @@ class FlexFieldsSerializerMixin(object):
         if not hasattr(self, "context") or not self.context.get("request", None):
             return False
 
-        return self.context["request"].method == "GET"
+        return self.context["request"].method in ["GET", "POST"]
 
     def _get_omit_input(self, passed_settings):
         value = passed_settings.get("omit")
