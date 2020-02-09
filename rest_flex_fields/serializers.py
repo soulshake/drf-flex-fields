@@ -19,11 +19,15 @@ class FlexFieldsSerializerMixin(object):
     def __init__(self, *args, **kwargs):
         self.expanded_fields = []
 
-        passed = {
-            "expand": [kwargs.pop("expand")] if "expand" in kwargs else [],
-            "fields": [kwargs.pop("fields")] if "fields" in kwargs else [],
-            "omit": [kwargs.pop("omit")] if "omit" in kwargs else [],
-        }
+        passed = {}
+        for field in ["expand", "fields", "omit"]:
+            if field in kwargs:
+                if isinstance(kwargs[field], (list, tuple)):
+                    passed[field] = kwargs.pop(field)
+                else:
+                    passed[field] = [kwargs.pop(field)]
+            else:
+                passed[field] = []
 
         super(FlexFieldsSerializerMixin, self).__init__(*args, **kwargs)
         expand = self._get_expand_input(passed)
